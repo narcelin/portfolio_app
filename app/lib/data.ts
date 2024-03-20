@@ -10,6 +10,20 @@ import {
 } from './definitions';
 import { formatCurrency } from './utils';
 
+import { supabase } from './initSupabase'
+
+export async function fetchRevenueSB(){
+  try {
+    const {data, error} = await supabase.from('Revenue').select('month');
+    console.log("RESPONSE", data);
+    return data;
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch revenue data.');
+  }
+}
+
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
