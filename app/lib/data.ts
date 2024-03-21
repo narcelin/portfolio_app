@@ -10,18 +10,20 @@ import {
 } from './definitions';
 import { formatCurrency } from './utils';
 
-import { supabase } from './initSupabase'
+import { supabase } from './initSupabase';
 
-export async function fetchRevenueSB(){
+export default async function fetchRevenueSB(){
   try {
-    const {data, error} = await supabase.from('Revenue').select('month');
-    console.log("RESPONSE", data);
+    const {data, error} = await supabase.from('Revenue').select('*').order('revenue', {ascending: true });
+    console.log("SUPABASE FETCH: ", data);
     return data;
 
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch revenue data.');
   }
+
+
 }
 
 export async function fetchRevenue() {
