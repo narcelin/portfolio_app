@@ -199,14 +199,14 @@ export async function fetchFilteredInvoicesSB(
   query: string,
   currentPage: number,
 ) {
-  const { data, error } = await supabase.from('Invoices').select('*').textSearch('status', query, {
+  const { data: searchedQuery, error } = await supabase.from('Invoices').select('*').textSearch('status', query, {
     type: 'websearch'
   });
 
   const { data: data2, error: error2 } = await supabase.from('Invoices').select('*').match({ amount: 30000 });
 
   // const {data, error} = await supabase.from('Revenue').select('*').order('revenue', {ascending: true });
-  console.log(query, data2)
+  console.log(query, searchedQuery)
 }
 
 export async function fetchInvoicesPages(query: string) {
