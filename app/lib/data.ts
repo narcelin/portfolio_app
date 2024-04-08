@@ -199,7 +199,7 @@ export async function fetchFilteredInvoicesSB(
   query: string,
   currentPage: number,
 ) {
-  const { data: searchedQuery, error } = await supabase.from('Invoices').select('*').textSearch('status', query, {
+  const { data: searchedQuery, error } = await supabase.from('Invoices, Customers').select('*').textSearch('status', query, {
     type: 'websearch'
   });
 
