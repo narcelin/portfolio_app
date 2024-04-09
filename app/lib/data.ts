@@ -20,7 +20,7 @@ export async function fetchRevenueSB() {
 
   //Creating artificial delay in information retreival 
   // console.log("Fetching Revenue data...");
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  // await new Promise((resolve) => setTimeout(resolve, 3000));
   // console.log("Fetching data after 3 sec");
 
   try {
@@ -40,12 +40,12 @@ export async function fetchLatestInvoiceSB() {
   noStore();
 
   // console.log("Fetching Invoice data...");
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  // await new Promise((resolve) => setTimeout(resolve, 3000));
   // console.log("Fetching data after 3 sec");
 
   // console.log("Async Function Fetching Invoice")
   try {
-    const { data, error } = await supabase.from('Invoices').select(`*, Customers(*)`).order('date', { ascending: false }).limit(2); //order then limits to the number of rows returned. 2 most recent invoices
+    const { data, error } = await supabase.from('Invoices').select(`*, Customers(*)`).order('date', { ascending: false }).limit(5); //order then limits to the number of rows returned. 2 most recent invoices
     // console.log("Invoice Fetched Data: ", data);
     return data;
   } catch (error) {
@@ -125,16 +125,16 @@ export async function fetchCardDataSB() { //Promise to avoid waterfall requests
       // supabase.from('Invoices').select('*', { count: 'exact' }),
       supabase.from('Invoices').select('*', { count: 'exact' }),
       supabase.from('Customers').select('*', { count: 'exact' }),
-      supabase.from('Invoices').select('*', { count: 'exact' }).eq('status', 'pending'),
-      supabase.from('Invoices').select('*', { count: 'exact' }).eq('status', 'paid')
+      supabase.rpc('calculate_total_amount', { table_name: 'Invoices', status: 'pending' }),
+      supabase.rpc('calculate_total_amount', { table_name: 'Invoices', status: 'paid' })
     ]);
 
     const numberOfInvoicesSB = Number(dataSB[0].count ?? '0');
     const numberOfCustomersSB = Number(dataSB[1].count ?? '0');
-    // const totalPaidInvoicesSB = formatCurrency(dataSB[2].count ?? '0'); //Issue with the query. Need to return a number which is the sum of all the $ amounts requested
-    // const totalPendingInvoicesSB = formatCurrency(dataSB[3].pending ?? '0');
-    const totalPaidInvoicesSB = formatCurrency(3000);
-    const totalPendingInvoicesSB = formatCurrency(4700);
+    const totalPaidInvoicesSB = formatCurrency(dataSB[2].data ?? 0); //Issue with the query. Need to return a number which is the sum of all the $ amounts requested
+    const totalPendingInvoicesSB = formatCurrency(dataSB[3].data ?? 0);
+    // const totalPaidInvoicesSB = formatCurrency(3000);
+    // const totalPendingInvoicesSB = formatCurrency(4700);
 
     // const data = await Promise.all([
     //   invoiceCountPromise,
@@ -199,14 +199,12 @@ export async function fetchFilteredInvoicesSB(
   query: string,
   currentPage: number,
 ) {
-  const { data: searchedQuery, error } = await supabase.from('Invoices, Customers').select('*').textSearch('status', query, {
+  const { data: queriedInvoiceData } = await supabase.from('Invoices').select('*').textSearch('status', query, {
     type: 'websearch'
   });
+  console.log(queriedInvoiceData);
 
-  const { data: data2, error: error2 } = await supabase.from('Invoices').select('*').match({ amount: 30000 });
-
-  // const {data, error} = await supabase.from('Revenue').select('*').order('revenue', {ascending: true });
-  console.log(query, searchedQuery)
+  return queriedInvoiceData;
 }
 
 export async function fetchInvoicesPages(query: string) {

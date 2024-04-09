@@ -1,10 +1,50 @@
 #Unorganized Points
 - streaming -> <Suspense>
 - skipped chapter 10 : Partial Prerendering (https://nextjs.org/learn/dashboard-app/partial-prerendering)
+- Can create an rcp in order to user SQL on supabase like so const {data, error} = await supabase.rpc('search_posts', { keyword: '[YOUR_SEARCH_TERM_HERE]' }) -> (https://stackoverflow.com/questions/69225396/is-there-a-way-to-perform-full-text-search-on-multiple-columns-on-supabase-with)
+-DATABASE AUTH ISSUE WHEN USING PRISMA MIGRATE DEV (https://stackoverflow.com/questions/67551593/supabase-client-permission-denied-for-schema-public){
+  grant usage on schema public to postgres, anon, authenticated, service_role;
 
+  grant all privileges on all tables in schema public to postgres, anon, authenticated, service_role;
+  grant all privileges on all functions in schema public to postgres, anon, authenticated, service_role;
+  grant all privileges on all sequences in schema public to postgres, anon, authenticated, service_role;
+
+  alter default privileges in schema public grant all on tables to postgres, anon, authenticated, service_role;
+  alter default privileges in schema public grant all on functions to postgres, anon, authenticated, service_role;
+  alter default privileges in schema public grant all on sequences to postgres, anon, authenticated, service_role;
+}
 
 #Routing Notes
 - When you create a new folder using parentheses (), the name won't be included in the URL path. So /dashboard/(overview)/page.tsx becomes /dashboard. (https://nextjs.org/learn/dashboard-app/streaming)
 
+#Postgres Functions on Supabase
+(https://www.youtube.com/watch?v=MJZCCpCYEqk)
+(https://www.youtube.com/watch?v=I6nnp9AINJk)
+
 #Chapters
 ##Chapter 11: Adding Search and Pagination
+- Supabase one to many join -> (https://supabase.com/docs/guides/database/joins-and-nesting)
+
+Works for searching Name first and then Invoice.status by using an OR in the searchbar between name and Invoice Status
+{
+  const searchedQueryRaw = await supabase.from('Customers').select('"*", Invoices ("*")')
+    .textSearch('name', query, { type: 'websearch' })
+    .textSearch('Invoices.status', query, { type: 'websearch' });
+  console.log(query + " -> fetchFilteredInvoicesSB: ", searchedQueryRaw)
+}
+
+    Examples of Queries with JOINs
+{ //Creating this function to store query examples *DELETE*
+    const searchedQuery = await supabase.from('Customers').select('Invoices ( status )').textSearch('Invoices.status', query, {
+      type: 'websearch'
+    });
+
+    const searchedQueryRaw = await supabase.from('Customers').select('"*", Invoices ("*")')
+      .textSearch('name', query, { type: 'websearch' })
+      .textSearch('Invoices.status', query, { type: 'websearch' });
+    console.log(query + " -> fetchFilteredInvoicesSB: ", queriedInvoiceData)
+
+
+    const { data: data2, error: error2 } = await supabase.from('Invoices').select('*').match({ amount: 30000 });
+    // const {data, error} = await supabase.from('Revenue').select('*').order('revenue', {ascending: true });
+  }

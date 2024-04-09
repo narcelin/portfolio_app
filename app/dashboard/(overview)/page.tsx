@@ -23,7 +23,7 @@ export default async function Page() {
     totalPendingInvoicesSB: totalPendingInvoices
   } = await fetchCardDataSB();
   // const revenue = await fetchRevenueSB();
-  const latestInvoices = await fetchLatestInvoiceSB();
+  // const latestInvoices = await fetchLatestInvoiceSB();
 
   return (
     <main>
