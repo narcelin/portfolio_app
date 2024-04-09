@@ -6,11 +6,11 @@ import { LatestInvoice } from '@/app/lib/definitions';
 import { fetchLatestInvoiceSB } from '@/app/lib/data';
 
 export default async function LatestInvoices(
-//   {
-//   latestInvoices,
-// }: {
-//   latestInvoices: LatestInvoice[];
-// }
+  //   {
+  //   latestInvoices,
+  // }: {
+  //   latestInvoices: LatestInvoice[];
+  // }
 ) {
   const latestInvoices = await fetchLatestInvoiceSB();
   // console.log("LATEST INVOICE ", latestInvoices[0])
@@ -23,7 +23,7 @@ export default async function LatestInvoices(
         {/* NOTE: comment in this code when you get to this point in the course */}
 
         <div className="bg-white px-6">
-          {latestInvoices.map((invoice, i) => {
+          {latestInvoices?.map((invoice, i) => {
             return (
               <div
                 key={invoice.id}
