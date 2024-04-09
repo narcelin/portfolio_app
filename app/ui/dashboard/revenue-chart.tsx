@@ -18,7 +18,7 @@ export default async function RevenueChart(
   // }
 ) {
   let revenue = await fetchRevenueSB();
-  console.log("REVENUE CHART: ", revenue);
+  // console.log("REVENUE CHART: ", revenue);
   const chartHeight = 350;
   // NOTE: comment in this code when you get to this point in the course
 

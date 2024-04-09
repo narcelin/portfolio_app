@@ -48,3 +48,11 @@ Works for searching Name first and then Invoice.status by using an OR in the sea
     const { data: data2, error: error2 } = await supabase.from('Invoices').select('*').match({ amount: 30000 });
     // const {data, error} = await supabase.from('Revenue').select('*').order('revenue', {ascending: true });
   }
+
+##npm i debounce
+- search only when user stopped typing instead of on every keystroke
+
+##SKIPPED PAGINATION
+
+#Chapter 12: Mutating Data
+

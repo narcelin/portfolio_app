@@ -199,10 +199,11 @@ export async function fetchFilteredInvoicesSB(
   query: string,
   currentPage: number,
 ) {
+  noStore(); // Would like to set a timer on here or some sort of requirment
   const { data: queriedInvoiceData } = await supabase.from('Invoices').select('*').textSearch('status', query, {
     type: 'websearch'
   });
-  console.log(queriedInvoiceData);
+  // console.log(queriedInvoiceData);
 
   return queriedInvoiceData;
 }
@@ -268,6 +269,16 @@ export async function fetchCustomers() {
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all customers.');
+  }
+}
+
+export async function fetchCustomersSB() {
+  try {
+    const { data: customerData } = await supabase.from('Customers').select('id, name').order('name', { ascending: true });
+    return customerData;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all customers using Supabase Client.');
   }
 }
 
