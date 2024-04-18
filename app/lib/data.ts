@@ -233,9 +233,8 @@ export async function fetchInvoiceByIdSB(id: string) {
   try {
     // console.log(id);
     const { data } = await supabase.from('Invoices').select('*').eq('id', id);
-    const invoice = data?.map((value) => ({ ...value, amount: value.amount / 100 }));
-    console.log(invoice[0]);
-    return invoice[0];
+    const invoice = data?.map((data) => ({ ...data, amount: data.amount / 100 }));
+    return invoice?.[0];
 
     // const invoice = data.map((invoice) => ({
     //   ...invoice,
