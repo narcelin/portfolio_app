@@ -54,6 +54,8 @@ export async function supabaseTester() {
         //     .textSearch('Invoices.status', 'status', { type: 'websearch' });
         // console.log('status' + " -> fetchFilteredInvoicesSB: ", searchedQueryRaw)
 
+        const { data: searchById } = await supabase.from('Invoices').select('*').eq('id', '98dc5d19-08cb-4114-91bb-faf4f9de5e5f')
+        console.log('RETURN VIA ID ', searchById)
         return data;
 
     } catch (error) {

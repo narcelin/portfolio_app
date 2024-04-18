@@ -37,7 +37,7 @@ export async function fetchRevenueSB() {
 }
 
 export async function fetchLatestInvoiceSB() {
-  noStore();
+  // noStore();
 
   // console.log("Fetching Invoice data...");
   // await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -226,6 +226,27 @@ export async function fetchInvoicesPages(query: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch total number of invoices.');
+  }
+}
+
+export async function fetchInvoiceByIdSB(id: string) {
+  try {
+    // console.log(id);
+    const { data } = await supabase.from('Invoices').select('*').eq('id', id);
+    const invoice = data?.map((value) => ({ ...value, amount: value.amount / 100 }))
+    return invoice[0];
+
+    // const invoice = data.map((invoice) => ({
+    //   ...invoice,
+    //   // Convert amount from cents to dollars
+    //   amount: invoice.amount / 100,
+    // }));
+
+    // return invoice[0];
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch invoice.');
   }
 }
 

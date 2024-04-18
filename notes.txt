@@ -55,4 +55,10 @@ Works for searching Name first and then Invoice.status by using an OR in the sea
 ##SKIPPED PAGINATION
 
 #Chapter 12: Mutating Data
+-can use forms or entries
+-using Zod (https://zod.dev/) to validate inputs
+-revalidatePath('/dashboard/invoices'); This is used to ensure data gets refreshed on the page
+
+##updating data
+- [id] -> folder name to make it dynamic.
 
