@@ -62,3 +62,5 @@ Works for searching Name first and then Invoice.status by using an OR in the sea
 ##updating data
 - [id] -> folder name to make it dynamic.
 
+##Chapter 14 Accessibility and Advance Error Handling
+
