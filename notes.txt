@@ -64,3 +64,11 @@ Works for searching Name first and then Invoice.status by using an OR in the sea
 
 ##Chapter 14 Accessibility and Advance Error Handling
 
+$$Chapter 15 Authentication
+NextAuth.hs
+-npm install next-auth@beta
+to get secret code
+-openssl rand -base64 32 
+
+##Chapter 16 Metadata
+-Good to know: You can also create dynamic OG images using the ImageResponse constructor. (https://nextjs.org/docs/app/api-reference/functions/image-response)
